@@ -1,4 +1,5 @@
 # virus_stats
-Virus Stats Chrome Extention
+Covid-19 Statsistics
 
-A Chrome extention that pulls data from the Coronavirus Tracker from John Hopkins University and displays it.
+A page that displays custom covid-19 stats. The data is collected through one of rapidAPI's APIs and is very recent (updated by the hour).
+
