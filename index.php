@@ -1,7 +1,7 @@
 <?php
 
 function country_stats($country){
-	$filename = "https://covid-19-data.p.rapidapi.com/country?format=undefined&name=". $country;
+	$filename = "https://covid-19-data.p.rapidapi.com/country?format=undefined&name=". urlencode($country);
 	$host = 'covid-19-data.p.rapidapi.com';
 	$key = 'bf8bd3eb2emsh2a0163b2e9d234bp1ee4e8jsn9aa9f2a17eab';
 
@@ -27,6 +27,16 @@ function country_stats($country){
 	];
 }
 
+function province_stats($province_num){
+	$filename = "https://api.apify.com/v2/key-value-stores/fabbocwKrtxSDf96h/records/LATEST?disableRedirect=true";
+	$json = file_get_contents($filename, false);
+	$data = json_decode($json, true);
+
+	return $data['infectedByRegion'][$province_num];
+}
+
+
+// Worldwide stats
 $filename = "https://covid-19-data.p.rapidapi.com/totals?format=undefined&";
 $host = 'covid-19-data.p.rapidapi.com';
 $key = 'bf8bd3eb2emsh2a0163b2e9d234bp1ee4e8jsn9aa9f2a17eab';
@@ -52,7 +62,10 @@ $deaths = number_format($data[0]['deaths']);
 
 $canada = country_stats("canada");
 $usa = country_stats("usa");
-$uk =country_stats("uk");
+$sri_lanka = country_stats("sri lanka");
+
+$bc = province_stats(10);
+$on = province_stats(6);
 
 
 ?>
@@ -119,7 +132,7 @@ $uk =country_stats("uk");
 					<section class = "card-body">
 						<h4 class = "text-center"> Canada Stats </h4>
 						<h5> Confirmed: <?php echo $canada['confirmed'] ?> </h5>
-						<h5> Deaths: <?php echo $canada['deaths'] ?> </h5>
+						<h5> Deaths: <?php echo $canada['deaths']?> </h5>
 						<h5> Recovered: <?php echo $canada['recovered'] ?> </h5>
 					</section>
 				</section>
@@ -128,10 +141,35 @@ $uk =country_stats("uk");
 			<div class = "col">
 				<section class = "card">
 					<section class = "card-body">
-						<h4 class = "text-center"> UK Stats </h4>
-						<h5> Confirmed: <?php echo $uk['confirmed'] ?> </h5>
-						<h5> Deaths: <?php echo $uk['deaths'] ?> </h5>
-						<h5> Recovered: <?php echo $uk['recovered'] ?> </h5>
+						<h4 class = "text-center"> Sri Lanka Stats </h4>
+						<h5> Confirmed: <?php echo $sri_lanka['confirmed'] ?> </h5>
+						<h5> Deaths: <?php echo $sri_lanka['deaths'] ?> </h5>
+						<h5> Recovered: <?php echo $sri_lanka['recovered'] ?> </h5>
+					</section>
+				</section>
+			</div>
+		</div>
+
+		<br>
+
+		<div class = "row">
+
+			<div class = "col">
+				<section class = "card">
+					<section class = "card-body">
+						<h4 class = "text-center"> BC Stats </h4>
+						<h5> Confirmed: <?php echo $bc['infectedCount'] ?> </h5>
+						<h5> Deaths: <?php echo $bc['deceasedCount'] ?> </h5>
+					</section>
+				</section>
+			</div>
+
+			<div class = "col">
+				<section class = "card">
+					<section class = "card-body">
+						<h4 class = "text-center"> Ontario Stats </h4>
+						<h5> Confirmed: <?php echo $on['infectedCount'] ?> </h5>
+						<h5> Deaths: <?php echo $on['deceasedCount'] ?> </h5>
 					</section>
 				</section>
 			</div>
