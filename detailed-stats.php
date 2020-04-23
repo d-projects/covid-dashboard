@@ -1,20 +1,45 @@
 
 <?
 $filename = "https://api.covid19api.com/dayone/country/canada/status/confirmed";
-$json = file_get_contents($filename, false);
-$data = json_decode($json, true);
+$json_confirmed = file_get_contents($filename, false);
+$data_confirmed = json_decode($json_confirmed, true);
 $province = $_POST['province'];
-$dates = [];
-$cases = [];
-foreach ($data as $p){
+
+// shortening the province name to be displayed if the province is multiple words (e.g. British Columbia => BC)
+$province_name = $province;
+if (strpos($province, ' ')){
+    $province_array = explode(' ', $province);
+    $province_name = '';
+    foreach ($province_array as $word){
+        $province_name .= !ctype_lower(substr($word, 0, 1)) ? substr($word, 0, 1) . '.' : '';
+    }
+}
+
+
+$filename_deaths = "https://api.covid19api.com/dayone/country/canada/status/deaths";
+$json_deaths = file_get_contents($filename_deaths, false);
+$data_deaths = json_decode($json_deaths, true);
+
+$dates = array();
+$cases = array();
+$deaths = array();
+
+foreach ($data_confirmed as $p){
     if ($p["Province"] == $province){
         $cases[] = $p["Cases"];
         $dates[] = date("m-d", strtotime($p["Date"]));
     }
 }
 
+foreach ($data_deaths as $p){
+    if ($p["Province"] == $province){
+        $deaths[] = $p["Cases"];
+    }
+}
+
 $dates_json = json_encode($dates);
 $cases_json = json_encode($cases);
+$deaths_json = json_encode($deaths);
 
 
 $chart_name = "Covid-19 Data for " . $province;
@@ -29,9 +54,27 @@ $chart_name = "Covid-19 Data for " . $province;
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
-<section class = "container">
-    <canvas id="myChart" width="400" height="250"></canvas>
-</section>
+    <header class = "alert bg-dark fixed-top text-light">
+
+        <div class = "row">
+            <div class = "col-4">
+            </div>
+            <div class = "col-4">
+            <h1 class = "text-center"> Covid-19 Data for <?php echo $province_name ?> </h1>
+            </div>
+            <div class = "col-4">
+            <a href = "covid_19.php"><button type = "button" class = "btn-lg btn-light"> Home </button></a>
+        </div>
+        </div>
+    </header>
+
+    <br> <br> <br> <br>
+
+<main class = "container">
+    <canvas id="myChart" width="400" height="225"></canvas>
+</main>
+
+
 
 <script>
 
@@ -39,6 +82,7 @@ var ctx = document.getElementById('myChart').getContext('2d');
 
 var dates = <? echo $dates_json; ?>;
 var cases = <? echo $cases_json; ?>;
+var deaths = <? echo $deaths_json; ?>;
 
 var myChart = new Chart(ctx, {
     type: 'line',
@@ -47,13 +91,24 @@ var myChart = new Chart(ctx, {
         datasets: [{
             label: "Total Cases",
             data: cases,
-            lineTension: 0
+            lineTension: 0,
+            fill: false,
+            backgroundColor: "blue",
+            borderColor: "blue"
+        },
+        {
+            label: "Total Deaths",
+            data: deaths,
+            lineTension: 0,
+            fill: false,
+            backgroundColor: "red",
+            borderColor: "red"
         }]
     },
     options: {
         title: {
             display: true,
-            text: '<? echo $chart_name ?>'
+            //text: '<? echo $chart_name ?>'
         },
         scales: {
             yAxes: [{
