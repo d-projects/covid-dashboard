@@ -1,6 +1,4 @@
 # covid-19-stats
-Covid-19 Statsistics
-
 The website is located at: http://covid-19-stats.epizy.com/
 
 This is a website that displays Covid-19 statistics, predominantly focused on Canadian Statistics. Each Canadian Province/Territory has its own section along with associated graphs that display cumulative and daily statistics.
