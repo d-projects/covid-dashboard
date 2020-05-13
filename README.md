@@ -10,6 +10,7 @@ The global stats are held in a table at the top of the front page and may someti
 Below is a partial screenshot of the home page.
 
 Below is a partial screenshot of a province's custom graphical display page.
+! [] images/province_page.png
 
 
 
