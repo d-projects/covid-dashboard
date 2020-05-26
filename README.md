@@ -8,6 +8,8 @@ The global stats are held in a table at the left side of the front page and may 
 Below is a partial screenshot of the home page.
 ![](images/covid_home_page.png)
 
+
+
 Below is a partial screenshot of a province's custom graphical display page. Such a page can be accessed by clicking on the "Detailed Stats" button on the home page for a province.
 ![](images/province_page.png)
 
