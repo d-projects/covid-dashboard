@@ -6,6 +6,7 @@ This is a website that displays Covid-19 statistics, predominantly focused on Ca
 The global stats are held in a table at the top of the front page and may sometimes not show proper data due to updates occuring at the time.
 
 Below is a partial screenshot of the home page.
+![](images/covid_home_page.png)
 
 Below is a partial screenshot of a province's custom graphical display page.
 ![](images/province_page.png)
