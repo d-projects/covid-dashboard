@@ -1,7 +1,8 @@
 # covid-19-stats
 
-**NOTE: This site will be updated to use Laravel in the coming days, and may not be live for a short period.
 The website is located at: http://covid-19-stats.epizy.com/
+**NOTE: The live site does not use Laravel and is a bit different in format compared to the site in the files above. An update to using the above files will be done soon.
+
 
 
 
