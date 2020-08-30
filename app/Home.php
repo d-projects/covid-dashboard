@@ -64,51 +64,52 @@ class Home extends Model
         $data = json_decode($json, true);
         $display = '';
         foreach ($data['Countries'] as $c){
-            $c['TotalConfirmed']  = number_format($c['TotalConfirmed']);
+            $c['TotalConfirmed'] = number_format($c['TotalConfirmed']);
             $c['TotalDeaths'] = number_format($c['TotalDeaths']);
         }
         return $data;
     }
 
 
+    // fetched province specific data for Canada
     public function province_stats(){
 
+        // a dictionary array to keep province data
         $province_info = [
-            'Ontario' => [],
-            'British Columbia' => [],
-            'Quebec' => [],
-            'Alberta' => [],
-            'Prince Edward Island' => [],
-            'Nova Scotia' => [],
-            'Manitoba' => [],
-            'Saskatchewan' => [],
-            'New Brunswick' => [],
-            'Yukon' => [],
-            'Northwest Territories' => [],
-            'Newfoundland and Labrador' => []
+            'ON' => ['name' => 'Ontario'],
+            'BC' => ['name' => 'British Columbia'],
+            'QC' => ['name' => 'Quebec'],
+            'AB' => ['name' => 'Alberta'],
+            'PE' => ['name' => 'Prince Edward Island'],
+            'NS' => ['name' => 'Nova Scotia'],
+            'MB' => ['name' => 'Manitoba'],
+            'SK' => ['name' => 'Saskatchewan'],
+            'NB' => ['name' => 'New Brunswick'],
+            'YT' => ['name' => 'Yukon'],
+            'NT' => ['name' => 'Northwest Territories'],
+            'NU' => ['name' => 'Nunavut'],
+            'NL' => ['name' => 'Newfoundland and Labrador']
         ];
 
+        // assigns a number to each province (**can probably remove this now)
         $num = 0;
         foreach ($province_info as $p => $i){
             $province_info[$p]['number'] = $num;
             $num++;
         }
-    
 
-        $test_file = 'https://api.covid19api.com/dayone/country/canada';
+        // calls the canadian api and fetches the data
+        $test_file = 'https://api.covid19tracker.ca/summary/split';
         $test_json = file_get_contents($test_file, false);
         $test_live = json_decode($test_json, true);
 
-        $size = count($test_live) - 1;
-        $count = 1;
-
-        for ($i = $size; $count <= 12; $i--) {
-            if (isset($province_info[$test_live[$i]['Province']]) && !isset($province_info[$test_live[$i]['Province']]['confirmed'] )){
-                $region = $test_live[$i]['Province'];
-                $province_info[$region]['confirmed'] = $test_live[$i]['Confirmed'];
-                $province_info[$region]['deaths'] = $test_live[$i]['Deaths'];
-                $count++;
-             }
+        // plcaes the relevant fetched data within the $province_info array
+        foreach ($test_live['data'] as $p) {
+            $province = $p['province'];
+            $province_info[$province]['new_cases'] = $p['change_cases'] ?? 0;
+            $province_info[$province]['new_deaths'] = $p['change_fatalities'] ?? 0;
+            $province_info[$province]['confirmed'] = $p['total_cases'] ?? 0;
+            $province_info[$province]['deaths'] = $p['total_fatalities'] ?? 0;
         }
 
         return $province_info;

@@ -91,8 +91,10 @@
 							<section class = "card alert-secondary">
 								<div class = "card-body">
 									<div class = "card-text">
-										<h4 class = "text-center"> {{$p}} </h4>
-										@if (isset($info))
+										<h4 class = "text-center"> {{$info['name']}} </h4>
+										@if (isset($info['confirmed']))
+											<h5> New Cases: {{$info['new_cases']}} </h5>
+											<h5> New Deaths: {{$info['new_deaths']}} </h5>
 											<h5> Total Confirmed: {{$info['confirmed']}} </h5>
 											<h5> Total Deaths: {{$info['deaths']}} </h5>
 										@endif
@@ -102,7 +104,7 @@
 
 								<div class = "card-footer">
 									
-										<button type = "submit" class = "btn btn-info"><a class = "province-link" href = "province/{{$p}}"> Graphical Information </a> </button>
+										<button type = "submit" class = "btn btn-info"><a class = "province-link" href = "province/{{$info['name']}}"> Graphical Information </a> </button>
 									
 								</div>
 							</section>
@@ -113,7 +115,9 @@
 						@endif
 
 					@endforeach
+					
 				</div>
+				<br> <br> <br>
 			</div>
 
 		</main>
