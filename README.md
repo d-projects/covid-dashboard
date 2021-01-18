@@ -1,7 +1,22 @@
-# covid-19-stats
-This is a website that displays Covid-19 statistics, predominantly focused on Canadian Statistics. Each Canadian Province/Territory has its own section along with associated graphs that display cumulative and daily statistics. The website is located <a href="http://covid-19-stats.epizy.com/"> here. </a>
+# Covid Dashboard
 
-The global stats are held in a table at the top of the front page and may sometimes not show proper data due to updates occuring to the API being used.
+This is a web app that displays Covid-19 statistics, mostly focused on Canadian statistics. Each Canadian Province/Territory has its own section along with associated charts that display cumulative and daily statistics. The site is located <a href="http://covid-19-stats.epizy.com/"> here. </a>
+
+## How it Looks
+
+The home page:
+
+![An image of the home page](./images/covid_home_page.png)
+
+One of the chart pages:
+
+![An image of the home page](./images/province_page.png)
 
 
+## API's Used
 
+* covid-19-data.p.rapidapi.com
+* api.covid19api.com
+* api.covid19tracker.ca
+
+*Please note that some stats may not be visible during some parts of the day due to an API updating.*
